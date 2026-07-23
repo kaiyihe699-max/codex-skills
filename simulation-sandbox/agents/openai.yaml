@@ -1,0 +1,4 @@
+interface:
+  display_name: "Simulation Sandbox"
+  short_description: "Generate runnable simulators from rule systems."
+  default_prompt: "Use $simulation-sandbox to turn this rule system into a runnable simulator with HTML canvas, CSV, and notebook outputs."

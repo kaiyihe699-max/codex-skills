@@ -1,0 +1,58 @@
+[
+  {
+    "id": "01-neutral",
+    "name_zh": "中性基准",
+    "name_en": "Neutral",
+    "ev_offset": 0.0,
+    "highlight_preserve": 0.35,
+    "shoulder": 0.22,
+    "shadow_gamma": 0.96,
+    "contrast": 0.22,
+    "black_lift": 0.0,
+    "saturation": 1.0,
+    "warmth": 0.0,
+    "highlight_desaturation": 0.08
+  },
+  {
+    "id": "02-highlight-safe",
+    "name_zh": "高光保护",
+    "name_en": "Highlight Safe",
+    "ev_offset": -0.35,
+    "highlight_preserve": 0.9,
+    "shoulder": 0.55,
+    "shadow_gamma": 0.9,
+    "contrast": 0.14,
+    "black_lift": 0.0,
+    "saturation": 0.96,
+    "warmth": -0.01,
+    "highlight_desaturation": 0.25
+  },
+  {
+    "id": "03-shadow-open",
+    "name_zh": "暗部展开",
+    "name_en": "Shadow Open",
+    "ev_offset": 0.45,
+    "highlight_preserve": 0.72,
+    "shoulder": 0.42,
+    "shadow_gamma": 0.76,
+    "contrast": 0.08,
+    "black_lift": 0.012,
+    "saturation": 0.92,
+    "warmth": 0.0,
+    "highlight_desaturation": 0.18
+  },
+  {
+    "id": "04-soft-film",
+    "name_zh": "柔和底片",
+    "name_en": "Soft Film",
+    "ev_offset": -0.05,
+    "highlight_preserve": 0.62,
+    "shoulder": 0.46,
+    "shadow_gamma": 0.86,
+    "contrast": -0.12,
+    "black_lift": 0.018,
+    "saturation": 0.86,
+    "warmth": 0.035,
+    "highlight_desaturation": 0.22
+  }
+]

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Dream Sequence 梦境叙事器"
+  short_description: "把文字变成连续梦境分镜、视觉圣经与短动画素材包"
+  default_prompt: "使用 $dream-sequence 把这段文字拆成连续梦境分镜，建立视觉圣经和符号变形链，并输出分镜、海报组图与短动画方案。"
+
+policy:
+  allow_implicit_invocation: true

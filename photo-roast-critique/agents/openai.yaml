@@ -1,0 +1,7 @@
+interface:
+  display_name: "烂片审判官"
+  short_description: "发张照片直接开审，兼顾网感锐评、专业诊断和改片建议"
+  default_prompt: "Use $photo-roast-critique to immediately review a standalone photo or a prompt like '这张怎么样', with sharp Chinese internet-style critique and practical fixes."
+
+policy:
+  allow_implicit_invocation: true

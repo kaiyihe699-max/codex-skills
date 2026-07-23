@@ -1,0 +1,4 @@
+interface:
+  display_name: "数字底片实验室 RAW Darkroom"
+  short_description: "分析相机 RAW，生成四套 16-bit 显影候选与报告"
+  default_prompt: "使用 $raw-darkroom 分析并显影这份相机 RAW，输出四套 TIFF/JPEG 候选、接触表和校验报告。"

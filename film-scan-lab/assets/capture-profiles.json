@@ -1,0 +1,38 @@
+{
+  "schema": "film-scan-lab/capture-profiles/v1",
+  "profiles": [
+    {
+      "id": "generic-scanner-srgb",
+      "name": "Generic scanner, gamma-encoded RGB",
+      "source": "scanner",
+      "decode_gamma": 2.2,
+      "black_level": [0.0, 0.0, 0.0],
+      "white_level": [1.0, 1.0, 1.0],
+      "channel_gain": [1.0, 1.0, 1.0],
+      "matrix": [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+      "flare": 0.002
+    },
+    {
+      "id": "generic-camera-linear",
+      "name": "Generic camera scan, linear RGB",
+      "source": "camera-scan",
+      "decode_gamma": 1.0,
+      "black_level": [0.0, 0.0, 0.0],
+      "white_level": [1.0, 1.0, 1.0],
+      "channel_gain": [1.0, 1.0, 1.0],
+      "matrix": [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+      "flare": 0.001
+    },
+    {
+      "id": "generic-camera-srgb",
+      "name": "Generic camera scan, rendered sRGB",
+      "source": "camera-scan",
+      "decode_gamma": 2.2,
+      "black_level": [0.0, 0.0, 0.0],
+      "white_level": [1.0, 1.0, 1.0],
+      "channel_gain": [1.0, 1.0, 1.0],
+      "matrix": [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+      "flare": 0.002
+    }
+  ]
+}

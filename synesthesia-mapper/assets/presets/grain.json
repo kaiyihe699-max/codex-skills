@@ -1,0 +1,18 @@
+{
+  "name": "grain",
+  "description": "Texture-forward mapping with denser, shorter musical gestures.",
+  "scan": "horizontal",
+  "scale": "dorian",
+  "root": "A",
+  "bpm": 108,
+  "bars": 8,
+  "beats_per_bar": 4,
+  "steps_per_bar": 12,
+  "bands": 12,
+  "density": 0.76,
+  "smoothness": 0.72,
+  "seed": 73,
+  "min_midi": 45,
+  "max_midi": 88,
+  "sample_rate": 44100
+}

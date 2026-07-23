@@ -1,0 +1,6 @@
+numpy>=1.26
+opencv-python>=4.8
+Pillow>=10.0
+tifffile>=2024.1
+rawpy>=0.19
+pytesseract>=0.3.10

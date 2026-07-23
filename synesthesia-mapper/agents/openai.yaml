@@ -1,0 +1,4 @@
+interface:
+  display_name: "共感谱 Synesthesia Mapper"
+  short_description: "把图像写成声音，生成 MIDI、WAV 与视觉乐谱"
+  default_prompt: "使用 $synesthesia-mapper 把这张图片映射为可复现的 MIDI、WAV 和视觉乐谱。"

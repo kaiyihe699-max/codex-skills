@@ -1,0 +1,18 @@
+{
+  "name": "prism",
+  "description": "Balanced color, space, and texture mapping for general images.",
+  "scan": "horizontal",
+  "scale": "pentatonic",
+  "root": "D",
+  "bpm": 92,
+  "bars": 8,
+  "beats_per_bar": 4,
+  "steps_per_bar": 8,
+  "bands": 10,
+  "density": 0.58,
+  "smoothness": 1.0,
+  "seed": 42,
+  "min_midi": 48,
+  "max_midi": 84,
+  "sample_rate": 44100
+}

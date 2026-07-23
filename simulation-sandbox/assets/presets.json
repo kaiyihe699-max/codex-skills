@@ -1,0 +1,77 @@
+{
+  "virus": {
+    "name": "Campus Flu Spread",
+    "model": "virus",
+    "description": "mobile agents, contact infection, probabilistic recovery",
+    "world": {"width": 960, "height": 640, "agents": 360, "steps": 900},
+    "agents": [
+      {"type": "susceptible", "count": 342, "color": "#2775c7"},
+      {"type": "infected", "count": 18, "color": "#d64545"},
+      {"type": "recovered", "count": 0, "color": "#1f9d78"}
+    ],
+    "rules": {
+      "movement": {"speed": 1.35, "noise": 0.46},
+      "infection": {"distance": 9, "probability": 0.028},
+      "recovery": {"afterSteps": 420, "probability": 0.018}
+    }
+  },
+  "evacuation": {
+    "name": "Gallery Evacuation",
+    "model": "evacuation",
+    "description": "agents choose exits, avoid obstacles, and leave the room",
+    "world": {"width": 960, "height": 640, "agents": 260, "steps": 800},
+    "rules": {
+      "movement": {"speed": 1.75, "noise": 0.24, "separation": 16},
+      "evacuation": {
+        "exits": [{"x": 940, "y": 170, "width": 18, "height": 110}, {"x": 940, "y": 415, "width": 18, "height": 110}],
+        "obstacles": [{"x": 365, "y": 190, "width": 120, "height": 70}, {"x": 540, "y": 360, "width": 150, "height": 80}]
+      }
+    }
+  },
+  "traffic": {
+    "name": "Signal Corridor Traffic",
+    "model": "traffic",
+    "description": "car-following dynamics with a timed signal",
+    "world": {"width": 960, "height": 640, "agents": 130, "steps": 1000},
+    "rules": {
+      "traffic": {"lanes": 4, "speedLimit": 3.8, "desiredGap": 28, "acceleration": 0.07, "brake": 0.16},
+      "signal": {"position": 0.58, "greenSteps": 180, "redSteps": 120}
+    }
+  },
+  "market": {
+    "name": "Price Competition Lab",
+    "model": "market",
+    "description": "firms adjust prices against demand response",
+    "world": {"width": 960, "height": 640, "agents": 5, "steps": 750},
+    "firms": [
+      {"name": "Aster", "price": 34, "cost": 15, "quality": 1.05, "color": "#2775c7"},
+      {"name": "Brio", "price": 29, "cost": 13, "quality": 0.95, "color": "#1f9d78"},
+      {"name": "Coda", "price": 41, "cost": 18, "quality": 1.18, "color": "#d48806"},
+      {"name": "Dima", "price": 26, "cost": 12, "quality": 0.88, "color": "#7357c8"},
+      {"name": "Evo", "price": 37, "cost": 16, "quality": 1.08, "color": "#d64545"}
+    ],
+    "rules": {
+      "demand": {"marketSize": 1000, "priceSensitivity": 0.11, "qualityWeight": 1.6},
+      "pricing": {"learningRate": 0.018, "exploration": 0.85, "floorMargin": 3, "ceiling": 72}
+    }
+  },
+  "ecosystem": {
+    "name": "Pocket Ecosystem",
+    "model": "ecosystem",
+    "description": "plants grow, herbivores graze, predators hunt",
+    "world": {"width": 960, "height": 640, "agents": 210, "steps": 1000},
+    "rules": {
+      "ecology": {
+        "plants": 120,
+        "herbivores": 70,
+        "predators": 20,
+        "plantGrowth": 0.16,
+        "grazeDistance": 9,
+        "huntDistance": 12,
+        "herbivoreReproduce": 0.018,
+        "predatorReproduce": 0.01
+      },
+      "movement": {"speed": 1.35, "noise": 0.5}
+    }
+  }
+}

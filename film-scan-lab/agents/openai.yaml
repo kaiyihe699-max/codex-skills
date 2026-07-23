@@ -1,0 +1,4 @@
+interface:
+  display_name: "胶片扫描实验室 Film Scan Lab"
+  short_description: "完成负片反相、边码识别、红外除尘、HDR 合成与档案输出"
+  default_prompt: "Use $film-scan-lab to analyze and restore this film scan, then export neutral, print, archive, review, and Adobe sidecar outputs."
