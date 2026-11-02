@@ -94,7 +94,14 @@ def resize_for_preview(image: Image.Image, max_size: int) -> Image.Image:
     return copy
 
 
-def apply_lut(image: Image.Image, size: int, values: list[tuple[float, float, float]]) -> Image.Image:
+def apply_lut(
+    image: Image.Image,
+    size: int,
+    values: list[tuple[float, float, float]],
+    strength: float = 1.0,
+) -> Image.Image:
+    if not 0.0 <= strength <= 1.0:
+        raise ValueError("LUT strength must be between 0 and 1.")
     has_alpha = image.mode == "RGBA"
     source = image.convert("RGBA" if has_alpha else "RGB")
     output = Image.new(source.mode, source.size)
@@ -103,7 +110,9 @@ def apply_lut(image: Image.Image, size: int, values: list[tuple[float, float, fl
     for pixel in pixel_data:
         r, g, b = pixel[:3]
         rr, gg, bb = lookup(values, size, r / 255.0, g / 255.0, b / 255.0)
-        mapped = (round(rr * 255), round(gg * 255), round(bb * 255))
+        original = (r / 255.0, g / 255.0, b / 255.0)
+        mixed = tuple(original[channel] + (graded - original[channel]) * strength for channel, graded in enumerate((rr, gg, bb)))
+        mapped = tuple(round(channel * 255) for channel in mixed)
         if has_alpha:
             mapped = mapped + (pixel[3],)
         result.append(mapped)
@@ -127,7 +136,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", required=True, help="Output image path.")
     parser.add_argument("--mode", choices=("adjusted", "comparison"), default="comparison", help="Preview output mode.")
     parser.add_argument("--max-size", type=int, default=1400, help="Resize longest edge before previewing.")
-    return parser.parse_args()
+    parser.add_argument("--strength", type=float, default=1.0, help="LUT amount from 0 (identity) to 1 (full effect).")
+    args = parser.parse_args()
+    if not 0.0 <= args.strength <= 1.0:
+        parser.error("--strength must be between 0 and 1")
+    return args
 
 
 def main() -> None:
@@ -135,7 +148,7 @@ def main() -> None:
     lut_size, values = parse_cube(Path(args.lut))
     image = ImageOps.exif_transpose(Image.open(args.input))
     image = resize_for_preview(image, args.max_size)
-    adjusted = apply_lut(image, lut_size, values)
+    adjusted = apply_lut(image, lut_size, values, args.strength)
     output = comparison(image, adjusted) if args.mode == "comparison" else adjusted
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)

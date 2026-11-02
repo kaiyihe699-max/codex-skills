@@ -8,7 +8,7 @@ A collection of custom Codex skills for visual creation, imaging, simulation, wr
 | --- | --- |
 | `dream-sequence` | Turn stories, keywords, or references into connected dreamlike visual sequences. |
 | `film-scan-lab` | Analyze, invert, restore, and archive film scans or camera reproductions. |
-| `generate-lut` | Generate, preview, and validate creative or technical color-grading LUTs. |
+| `generate-lut` | Generate, adjust, preview, batch-apply, and package creative or technical LUTs, with Panasonic camera checks. |
 | `hatch-pet` | Create and validate Codex-compatible v2 animated pets. |
 | `humanizer-zh` | Remove common AI-writing patterns from Chinese text. |
 | `meeting-notes` | Convert raw meeting material into structured notes and action items. |

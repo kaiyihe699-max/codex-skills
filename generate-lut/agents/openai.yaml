@@ -1,4 +1,4 @@
 interface:
   display_name: "Generate LUT"
-  short_description: "Create creative and technical .cube color grading LUTs."
-  default_prompt: "Use $generate-lut to create or convert a .cube LUT, preview it, and validate the result."
+  short_description: "Create, preview, package, and batch-apply color LUTs."
+  default_prompt: "Use $generate-lut to create, adjust, preview, package, or batch-apply a .cube LUT."

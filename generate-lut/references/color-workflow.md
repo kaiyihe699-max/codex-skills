@@ -15,6 +15,16 @@ Treat these as technical requests:
 
 For technical requests, ask for source RGB primaries, source transfer function, target RGB primaries, target transfer function, tone-mapping expectations, LUT size, and destination application/device. Use `scripts/generate_technical_lut.py` for built-in transforms or `scripts/ocio_generate_lut.py` when the user supplies an OCIO config.
 
+## Creative Candidate Review
+
+For a user exploring a creative look, generate a small set of controlled candidates and compare them on the same user-selected image or representative frames. Keep each round focused by changing no more than one or two controls. Use scripts/compare_lut_candidates.py to assemble the same before/after layout for each candidate. Leave the final choice to the user. Do not automatically classify footage or generate per-shot matching LUTs.
+
+## LUT Chain and Camera Delivery
+
+If a single device slot is preferred, bake the technical transform first and the creative look second, after confirming that the first stage's output encoding matches the second stage's input. Keep separate LUTs when independent intensity control is useful. For device delivery, use only a source-backed profile; when no verified profile exists, report format checks as unconfirmed.
+
+For a Panasonic LUMIX DC-S9 `.cube`, set the base Photo Style metadata with `--lumix-photo-style` when generating a creative LUT, or specify it explicitly when baking a chain whose inputs declare conflicting Photo Styles. This marker selects the camera-side base Photo Style; it does not establish the color-space correctness of the LUT. See `references/camera-compatibility.md`.
+
 ## Practical Creative Guidelines
 
 Preserve skin by keeping orange/red hue shifts modest and avoiding extreme saturation changes in midtones. Use stronger color bias in shadows and highlights than in midtones.
