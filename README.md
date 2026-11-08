@@ -6,6 +6,7 @@ Reusable Codex skills for visual creation, imaging, color workflows, and creativ
 
 ## Start here
 
+- [product-color-match](product-color-match/) — align product colors to an approved reference, including RAW input and 16-bit TIFF output.
 - [generate-lut](generate-lut/) — create and validate creative or technical LUTs, with Panasonic S9 camera support. See the [camera compatibility guide](generate-lut/references/camera-compatibility.md) and [S9 profile](generate-lut/references/camera-profiles/panasonic-dc-s9.json).
 - [film-scan-lab](film-scan-lab/) — analyze, invert, restore, and archive film scans.
 - [raw-darkroom](raw-darkroom/) — inspect and develop camera RAW files.
@@ -23,6 +24,7 @@ Reusable Codex skills for visual creation, imaging, color workflows, and creativ
 | [humanizer-zh](humanizer-zh/) | Remove common AI-writing patterns from Chinese text. |
 | [meeting-notes](meeting-notes/) | Convert raw meeting material into structured notes and action items. |
 | [optical-polish](optical-polish/) | Measure and correct optical alignment in UI components and graphics. |
+| [product-color-match](product-color-match/) | Match product photo colors to an approved reference with localized masks and RAW support. |
 | [photo-roast-critique](photo-roast-critique/) | Produce sharp Chinese photography critiques with practical fixes. |
 | [raw-darkroom](raw-darkroom/) | Decode, analyze, and develop camera RAW files. |
 | [simulation-sandbox](simulation-sandbox/) | Build runnable toy simulations from rule systems or domain ideas. |
