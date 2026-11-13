@@ -10,7 +10,7 @@ Reusable Codex skills for visual creation, imaging, color workflows, and creativ
 
 Photo color grading with a preview of the exact exported `.cube`, reusable recipes, and local validation.
 
-[查看三组真实照片对比与使用说明](generate-lut/README.md) · [下载可运行演示包](generate-lut/examples/yingse-starter-pack.zip)
+[查看三组真实照片对比与使用说明](generate-lut/README.md) · [下载可运行演示包](https://github.com/kaiyihe699-max/codex-skills/releases/download/generate-lut-v5.0.3/Yingse-v5.0.3-demo.zip) · [正式版本](https://github.com/kaiyihe699-max/codex-skills/releases/tag/generate-lut-v5.0.3)
 
 ![Yingse real-photo before/after comparisons](generate-lut/examples/gallery.jpg)
 

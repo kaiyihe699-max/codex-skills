@@ -8,7 +8,7 @@ Create a photo color grade from a style description. Preview the exported LUT, k
 
 上图为三张开放摄影样本的真实 LUT 应用结果，左原图、右效果。样本来自 NASA、Rachel Michetti 和 SpaceX，经 scikit-image 分发；不是作者拍摄、用户案例或机构背书。[素材来源](examples/SOURCES.md)
 
-[安装](#安装) · [第一次试用](#第一次试用) · [下载演示包](examples/yingse-starter-pack.zip) · [English](#english) · [反馈](https://github.com/kaiyihe699-max/codex-skills/issues/new?template=yingse-feedback.yml)
+[安装](#安装) · [第一次试用](#第一次试用) · [下载演示包](https://github.com/kaiyihe699-max/codex-skills/releases/download/generate-lut-v5.0.3/Yingse-v5.0.3-demo.zip) · [正式版本](https://github.com/kaiyihe699-max/codex-skills/releases/tag/generate-lut-v5.0.3) · [English](#english) · [反馈](https://github.com/kaiyihe699-max/codex-skills/issues/new?template=yingse-feedback.yml)
 
 ## 适合做什么
 
