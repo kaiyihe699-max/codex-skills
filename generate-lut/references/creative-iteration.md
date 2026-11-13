@@ -13,6 +13,6 @@ This workflow is for choosing a look with the user. It does not classify scene c
 
 ## What the preview does and does not show
 
-The review sheet applies each LUT with the same trilinear preview code as the single-image preview script. It is a visual comparison aid, not a simulation of every editor, camera display, or export pipeline. The preview assumes the input image is encoded for the LUT's expected input domain. For a technical conversion LUT, use a source-domain frame; for a creative look, use the matching display-referred image.
+The review sheet applies each LUT with the same trilinear preview code as the single-image preview script. It is a visual comparison aid, not a simulation of every editor, camera display, or export pipeline. The default photo path converts embedded ICC profiles to sRGB; untagged photos are assumed sRGB. For a technical conversion LUT, use a source-domain frame with explicit `--color-mode encoded-rgb`; this bypasses ICC and produces an untagged result requiring target-editor color management. The one-command creative package is sRGB-only.
 
 Do not turn this workflow into per-shot correction. A creative LUT is one global color transform; exposure, white balance, mixed lighting, and subject-specific corrections belong in shot-level grading before or after the creative look.

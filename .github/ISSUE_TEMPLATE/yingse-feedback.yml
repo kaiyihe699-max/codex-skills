@@ -1,0 +1,34 @@
+name: 映色 Yingse · 使用反馈
+description: 反馈安装、首次生成、LUT 使用问题，或分享实际使用场景。
+title: "[Yingse] "
+body:
+  - type: dropdown
+    id: stage
+    attributes:
+      label: 你到哪一步了？ / Stage
+      options:
+        - 安装遇到问题 / Installation blocked
+        - 已安装，首次生成遇到问题 / First generation blocked
+        - 已生成，目标软件使用遇到问题 / Applying the LUT
+        - 已成功使用，分享场景或建议 / Success or suggestion
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 系统与 Agent / OS and agent
+      placeholder: Windows 11 / Codex / Python 3.12
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: 想完成什么，实际发生了什么？ / Goal and result
+      description: 有报错请粘贴相关内容。无需上传私人照片；分享图片时请确认愿意公开且有权分享。
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 从哪里发现映色？ / How did you find Yingse? (optional)
+      placeholder: GitHub / skills.sh / 朋友分享 / 其他

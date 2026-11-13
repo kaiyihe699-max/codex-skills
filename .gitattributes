@@ -1,0 +1,2 @@
+# Preserve generated example bytes so hashes and recipe replays survive checkout.
+generate-lut/examples/** -text

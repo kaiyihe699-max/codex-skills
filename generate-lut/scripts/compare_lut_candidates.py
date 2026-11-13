@@ -12,6 +12,7 @@ except ImportError as exc:
     raise SystemExit("Pillow is required for LUT review sheets. Install Pillow or use the single-image preview script.") from exc
 
 from apply_lut_preview import apply_lut, parse_cube
+from image_color import open_for_lut, save_for_lut
 
 
 def safe_label(path: Path) -> str:
@@ -20,9 +21,9 @@ def safe_label(path: Path) -> str:
     return label.encode("ascii", "replace").decode("ascii")
 
 
-def load_preview(path: Path, max_size: int) -> Image.Image:
-    with Image.open(path) as opened:
-        image = ImageOps.exif_transpose(opened).convert("RGB")
+def load_preview(path: Path, max_size: int, color_mode="srgb-photo") -> Image.Image:
+    image, _ = open_for_lut(path, color_mode)
+    image = image.convert("RGB")
     image.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
     return image
 
@@ -41,6 +42,7 @@ def make_review_sheet(
     lut_paths: list[Path],
     output_path: Path,
     max_size: int,
+    color_mode: str = "srgb-photo",
 ) -> None:
     if not input_paths:
         raise ValueError("Provide at least one input image.")
@@ -53,7 +55,7 @@ def make_review_sheet(
     if any(resolved_output == path.resolve() for path in [*input_paths, *lut_paths]):
         raise ValueError("Output path must not overwrite an input image or LUT.")
 
-    inputs = [(path, load_preview(path, max_size)) for path in input_paths]
+    inputs = [(path, load_preview(path, max_size, color_mode)) for path in input_paths]
     luts = [(path, *parse_cube(path)) for path in lut_paths]
 
     padding = 24
@@ -116,7 +118,9 @@ def make_review_sheet(
             draw.rectangle((x, image_y, x + pair_width - 1, image_y + max_size - 1), outline=(94, 101, 114), width=1)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    sheet.save(output_path, format="PNG")
+    if output_path.exists():
+        raise FileExistsError(f"Refusing to overwrite {output_path}")
+    save_for_lut(sheet, output_path, color_mode, format="PNG")
     print(f"Wrote {output_path} ({len(luts)} LUT candidates across {len(inputs)} selected image(s)).")
 
 
@@ -128,6 +132,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lut", action="append", required=True, help="Candidate .cube LUT; repeat for additional candidates.")
     parser.add_argument("--output", required=True, help="Output PNG review sheet.")
     parser.add_argument("--max-size", type=int, default=420, help="Maximum preview edge in pixels (default: 420).")
+    parser.add_argument("--color-mode", choices=("srgb-photo", "encoded-rgb"), default="srgb-photo")
     args = parser.parse_args()
     if args.max_size < 64:
         parser.error("--max-size must be at least 64")
@@ -142,6 +147,7 @@ def main() -> None:
             [Path(value) for value in args.lut],
             Path(args.output),
             args.max_size,
+            args.color_mode,
         )
     except (OSError, ValueError) as exc:
         raise SystemExit(f"Could not create LUT review sheet: {exc}") from exc

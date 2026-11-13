@@ -63,24 +63,19 @@ def stamp_lumix_photo_style(path: Path, style: str) -> None:
     path.write_bytes(bom + "".join(lines).encode("utf-8"))
 
 
-def make_preview(image_path: Path, lut_path: Path, output_path: Path) -> None:
+def make_preview(image_path: Path, lut_path: Path, output_path: Path, color_mode="srgb-photo") -> None:
     try:
         from PIL import Image, ImageOps
         from apply_lut_preview import apply_lut, parse_cube, resize_for_preview
     except ImportError as exc:
         raise ValueError("Pillow is required to include a preview image.") from exc
 
-    with Image.open(image_path) as opened:
-        if opened.mode == "CMYK":
-            raise ValueError("CMYK preview images are not supported; use an RGB image.")
-        if opened.mode not in {"1", "L", "P", "RGB", "RGBA"}:
-            raise ValueError(f"Preview image mode {opened.mode} is not supported by this 8-bit RGB LUT workflow.")
-        lut_size, lut_values = parse_cube(lut_path)
-        image = resize_for_preview(ImageOps.exif_transpose(opened), 1400)
-        if image.mode == "P" and "transparency" in opened.info:
-            image = image.convert("RGBA")
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        apply_lut(image, lut_size, lut_values).save(output_path, format="PNG")
+    from image_color import open_for_lut, save_for_lut
+    lut_size, lut_values = parse_cube(lut_path)
+    image, _ = open_for_lut(image_path, color_mode)
+    image = resize_for_preview(image, 1400)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    save_for_lut(apply_lut(image, lut_size, lut_values), output_path, color_mode, format="PNG")
 
 
 def write_package_readme(
@@ -137,6 +132,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--size", type=int, default=33, help="Generated 3D LUT size; must be accepted by the selected camera profile.")
     parser.add_argument("--lumix-photo-style", choices=sorted(LUMIX_PHOTO_STYLE_TAGS), help="Optional Panasonic base Photo Style metadata tag.")
     parser.add_argument("--preview-image", help="Optional user-selected RGB image for an included preview.")
+    parser.add_argument("--preview-color-mode", choices=("srgb-photo", "encoded-rgb"), default="srgb-photo")
     args = parser.parse_args()
     if not 0.0 <= args.strength <= 1.0:
         parser.error("--strength must be between 0 and 1")
@@ -209,7 +205,7 @@ def main() -> None:
             preview_error = None
             if args.preview_image:
                 try:
-                    make_preview(Path(args.preview_image), lut_path, staged_dir / "preview.png")
+                    make_preview(Path(args.preview_image), lut_path, staged_dir / "preview.png", args.preview_color_mode)
                 except (OSError, ValueError) as exc:
                     preview_error = str(exc)
 
@@ -229,6 +225,7 @@ def main() -> None:
                 "lut_quality_status": quality_report.get("status"),
                 "preview_included": (staged_dir / "preview.png").exists(),
                 "preview_error": preview_error,
+                "preview_color_mode": args.preview_color_mode,
             }
             (staged_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             write_package_readme(

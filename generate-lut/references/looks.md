@@ -28,7 +28,7 @@ Use these mappings when converting style language into `generate_cube_lut.py` pa
 
 "Film", "cinematic", "movie", "blockbuster": start with `cinematic-teal-orange` or `warm-film`.
 
-"Portrait", "skin", "wedding", "beauty": start with `soft-portrait` and keep `--protect-skin`.
+"Portrait", "skin", "wedding", "beauty": start with `soft-portrait` and leave default skin protection enabled (disable only with `--no-protect-skin`).
 
 "Product", "commercial", "clean", "modern": start with `cool-commercial`.
 
@@ -37,3 +37,5 @@ Use these mappings when converting style language into `generate_cube_lut.py` pa
 "Moody", "green", "night", "suspense": start with `moody-green`.
 
 Increase `--strength` for a stronger look; tune `--contrast`, `--saturation`, `--warmth`, `--exposure`, and `--lift` for client-specific refinements.
+
+Custom shadow, middle and highlight RGB offsets are available via `--shadow-tint R G B`, `--mid-tint R G B`, `--highlight-tint R G B`; use smooth modest offsets. `--bleach` controls additional silver/desaturation mixing. All are saved by the one-command recipe exporter.

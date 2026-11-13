@@ -51,3 +51,5 @@ Use a real user image when available. If no image is supplied, preview on:
 - `assets/color-checker.png` for hue bias and saturation behavior.
 
 Deliver previews as comparisons when possible so the user can judge strength quickly.
+
+Photo previews in v5 normalize embedded ICC to sRGB, assume sRGB if untagged, and tag the result. For technical source-code frames explicitly select `--color-mode encoded-rgb` (camera package: `--preview-color-mode encoded-rgb`); this bypasses ICC and leaves output untagged. Do not run a Log frame through the ordinary-photo color path.

@@ -8,43 +8,7 @@ import math
 from pathlib import Path
 
 
-def parse_cube(path: Path) -> tuple[int, list[tuple[float, float, float]], list[str]]:
-    size = None
-    values: list[tuple[float, float, float]] = []
-    notes: list[str] = []
-    with path.open("r", encoding="utf-8-sig") as handle:
-        for line_number, raw_line in enumerate(handle, 1):
-            line = raw_line.strip()
-            if not line or line.startswith("#"):
-                continue
-            upper = line.upper()
-            if upper.startswith("TITLE") or upper.startswith("DOMAIN_MIN") or upper.startswith("DOMAIN_MAX"):
-                continue
-            if upper.startswith("LUT_3D_SIZE"):
-                parts = line.split()
-                if len(parts) != 2:
-                    raise ValueError(f"Line {line_number}: invalid LUT_3D_SIZE.")
-                size = int(parts[1])
-                continue
-            if upper.startswith("LUT_1D_SIZE"):
-                raise ValueError("1D LUTs are not supported by this validator.")
-            parts = line.split()
-            if len(parts) < 3:
-                notes.append(f"Line {line_number}: ignored non-RGB row.")
-                continue
-            try:
-                rgb = tuple(float(part) for part in parts[:3])
-            except ValueError as exc:
-                raise ValueError(f"Line {line_number}: invalid numeric RGB row.") from exc
-            values.append(rgb)
-    if size is None:
-        raise ValueError("Missing LUT_3D_SIZE.")
-    if size < 2:
-        raise ValueError("LUT_3D_SIZE must be at least 2.")
-    expected = size ** 3
-    if len(values) != expected:
-        raise ValueError(f"Expected {expected} entries for size {size}, found {len(values)}.")
-    return size, values, notes
+from cube_io import read_cube as parse_cube
 
 
 def luminance(rgb: tuple[float, float, float]) -> float:
@@ -131,6 +95,15 @@ def analyze(size: int, values: list[tuple[float, float, float]]) -> tuple[list[s
                 previous = current
     if checks and monotonic_drops / checks > 0.005:
         warnings.append(f"Detected {monotonic_drops} luminance reversals; inspect for banding or hue artifacts.")
+
+    neutral_y = [luminance(entry(values, size, i, i, i)) for i in range(size)]
+    negative_steps = sum(b < a - 1e-5 for a, b in zip(neutral_y, neutral_y[1:]))
+    if negative_steps:
+        warnings.append(f"Neutral ramp has {negative_steps} descending steps; inspect tonal reversals.")
+    # Grid spacing makes raw differences incomparable across LUT sizes.
+    slopes = [(b - a) * (size - 1) for a, b in zip(neutral_y, neutral_y[1:])]
+    if len(slopes) > 1 and max(abs(b - a) for a, b in zip(slopes, slopes[1:])) > 1.5:
+        warnings.append("Neutral-ramp slope changes abruptly; inspect for visible tonal breaks. This heuristic is not a perceptual banding test.")
 
     return errors, warnings
 

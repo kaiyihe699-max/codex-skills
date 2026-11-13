@@ -4,10 +4,30 @@ Reusable Codex skills for visual creation, imaging, color workflows, and creativ
 
 面向视觉创作、影像处理和创意工作流的 Codex Skills 集合。每个目录包含独立的 `SKILL.md` 和所需资源。
 
+## Featured · 映色 Yingse
+
+**一句话描述想要的颜色，用自己的照片看效果，再导出可复用 LUT。**
+
+Photo color grading with a preview of the exact exported `.cube`, reusable recipes, and local validation.
+
+[查看三组真实照片对比与使用说明](generate-lut/README.md) · [下载可运行演示包](generate-lut/examples/yingse-starter-pack.zip)
+
+![Yingse real-photo before/after comparisons](generate-lut/examples/gallery.jpg)
+
+Demo photographs are credited open samples, not the author's photography or endorsements. [Credits](generate-lut/examples/SOURCES.md).
+
+```bash
+npx skills add kaiyihe699-max/codex-skills --skill generate-lut
+```
+
+After installing, ask your agent: **“使用 $generate-lut，用自带人像样本做柔和暖调，展示对比并导出 LUT 和配方。”**
+
+Photo previews need Python 3.10+ and Pillow. [First-run guide / 首次试用](generate-lut/README.md#第一次试用).
+
 ## Start here
 
 - [product-color-match](product-color-match/) — align product colors to an approved reference, including RAW input and 16-bit TIFF output.
-- [generate-lut](generate-lut/) — create and validate creative or technical LUTs, with Panasonic S9 camera support. See the [camera compatibility guide](generate-lut/references/camera-compatibility.md) and [S9 profile](generate-lut/references/camera-profiles/panasonic-dc-s9.json).
+- [generate-lut / 映色](generate-lut/README.md) — describe a look, preview it on a photo, and export the same LUT with a replayable recipe. Advanced tools include technical transforms and Panasonic S9 profile checks. See the [camera compatibility guide](generate-lut/references/camera-compatibility.md) and [S9 profile](generate-lut/references/camera-profiles/panasonic-dc-s9.json).
 - [film-scan-lab](film-scan-lab/) — analyze, invert, restore, and archive film scans.
 - [raw-darkroom](raw-darkroom/) — inspect and develop camera RAW files.
 - [dream-sequence](dream-sequence/) — build connected visual stories from text or reference images.

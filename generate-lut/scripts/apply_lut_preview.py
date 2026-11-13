@@ -13,37 +13,12 @@ except ImportError as exc:  # pragma: no cover - exercised only when Pillow is a
     raise SystemExit("Pillow is required for image previews. Install Pillow or use validate/generate only.") from exc
 
 
+from cube_io import read_cube
+from image_color import open_for_lut, save_for_lut
+
+
 def parse_cube(path: Path) -> tuple[int, list[tuple[float, float, float]]]:
-    size = None
-    values: list[tuple[float, float, float]] = []
-    with path.open("r", encoding="utf-8-sig") as handle:
-        for raw_line in handle:
-            line = raw_line.strip()
-            if not line or line.startswith("#"):
-                continue
-            upper = line.upper()
-            if upper.startswith("TITLE") or upper.startswith("DOMAIN_MIN") or upper.startswith("DOMAIN_MAX"):
-                continue
-            if upper.startswith("LUT_3D_SIZE"):
-                parts = line.split()
-                if len(parts) != 2:
-                    raise ValueError(f"Invalid LUT_3D_SIZE line: {line}")
-                size = int(parts[1])
-                continue
-            if upper.startswith("LUT_1D_SIZE"):
-                raise ValueError("1D LUTs are not supported by this preview script.")
-            parts = line.split()
-            if len(parts) >= 3:
-                try:
-                    rgb = tuple(float(part) for part in parts[:3])
-                except ValueError as exc:
-                    raise ValueError(f"Invalid RGB row: {line}") from exc
-                values.append(rgb)
-    if size is None:
-        raise ValueError("Missing LUT_3D_SIZE.")
-    expected = size ** 3
-    if len(values) != expected:
-        raise ValueError(f"Expected {expected} LUT entries for size {size}, found {len(values)}.")
+    size, values, _ = read_cube(path)
     return size, values
 
 
@@ -137,7 +112,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--mode", choices=("adjusted", "comparison"), default="comparison", help="Preview output mode.")
     parser.add_argument("--max-size", type=int, default=1400, help="Resize longest edge before previewing.")
     parser.add_argument("--strength", type=float, default=1.0, help="LUT amount from 0 (identity) to 1 (full effect).")
+    parser.add_argument("--color-mode", choices=("srgb-photo", "encoded-rgb"), default="srgb-photo", help="Photo ICC normalization, or explicit raw-code preview for technical LUTs; encoded output has no ICC tag.")
     args = parser.parse_args()
+    if args.max_size < 1:
+        parser.error("--max-size must be positive")
     if not 0.0 <= args.strength <= 1.0:
         parser.error("--strength must be between 0 and 1")
     return args
@@ -145,16 +123,21 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    output_path = Path(args.output)
+    if output_path.resolve() in {Path(args.input).resolve(), Path(args.lut).resolve()} or output_path.exists():
+        raise ValueError("Output must be new and must not overwrite an input.")
     lut_size, values = parse_cube(Path(args.lut))
-    image = ImageOps.exif_transpose(Image.open(args.input))
+    image, color_info = open_for_lut(args.input, args.color_mode)
     image = resize_for_preview(image, args.max_size)
     adjusted = apply_lut(image, lut_size, values, args.strength)
     output = comparison(image, adjusted) if args.mode == "comparison" else adjusted
-    output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output.save(output_path)
+    save_for_lut(output, output_path, args.color_mode)
     print(f"Wrote {output_path}")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (OSError, ValueError) as exc:
+        raise SystemExit(f"Could not create LUT preview: {exc}") from exc

@@ -52,3 +52,7 @@ Check that:
 - The LUT does not have unexpected interior clipping.
 - Neutral grey drift is intentional and not accidental.
 - The generated preview matches the described style.
+
+## Shared normalized reader (v5)
+
+`cube_io.read_cube` is shared by previews and validation (and therefore by strength mixing and chain loading). It accepts sizes 2..128, UTF-8 BOMs, inline comments, and optional default domain headers. It rejects unsupported/duplicate headers, 1D or combined LUTs, non-default or non-finite domains, malformed/extra/missing rows, and non-finite or non-0..1 outputs. Values are never silently clipped or remapped. Extended-range .cube files may be valid in other workflows; they are outside this reader, not universally invalid.

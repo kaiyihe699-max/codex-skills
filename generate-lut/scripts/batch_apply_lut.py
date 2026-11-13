@@ -16,6 +16,7 @@ except ImportError as exc:  # pragma: no cover - exercised only when Pillow is a
     raise SystemExit("Pillow is required for batch image application. Install Pillow first.") from exc
 
 from apply_lut_preview import apply_lut, parse_cube
+from image_color import open_for_lut, save_for_lut
 from mix_lut_strength import read_domain
 
 
@@ -59,25 +60,12 @@ def plan_outputs(inputs: list[Path], source_root: Path | None, output_dir: Path)
     return plan
 
 
-def process_image(source: Path, target: Path, size: int, values: list[tuple[float, float, float]], strength: float) -> None:
-    with Image.open(source) as opened:
-        if opened.mode == "CMYK":
-            raise ValueError("CMYK input is not supported; convert it to RGB with a managed workflow first.")
-        if opened.mode not in {"1", "L", "P", "RGB", "RGBA"}:
-            raise ValueError(f"Image mode {opened.mode} is not supported by this 8-bit RGB LUT workflow.")
-        info = dict(opened.info)
-        oriented = ImageOps.exif_transpose(opened)
-        if oriented.mode == "P" and "transparency" in info:
-            oriented = oriented.convert("RGBA")
-        graded = apply_lut(oriented, size, values, strength)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        save_options: dict[str, Any] = {}
-        if info.get("icc_profile") and opened.mode in {"P", "RGB", "RGBA"}:
-            save_options["icc_profile"] = info["icc_profile"]
-        exif = oriented.getexif()
-        if exif:
-            save_options["exif"] = exif.tobytes()
-        graded.save(target, format="PNG", **save_options)
+def process_image(source: Path, target: Path, size: int, values: list[tuple[float, float, float]], strength: float, color_mode="srgb-photo") -> dict:
+    image, color_info = open_for_lut(source, color_mode)
+    graded = apply_lut(image, size, values, strength)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    save_for_lut(graded, target, color_mode, format="PNG")
+    return color_info
 
 
 def parse_args() -> argparse.Namespace:
@@ -86,6 +74,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lut", required=True, help="Input 3D .cube LUT.")
     parser.add_argument("--output-dir", required=True, help="New output folder; source files are never overwritten.")
     parser.add_argument("--strength", type=float, default=1.0, help="LUT amount from 0 (identity) to 1 (full effect).")
+    parser.add_argument("--color-mode", choices=("srgb-photo", "encoded-rgb"), default="srgb-photo")
     args = parser.parse_args()
     if not 0.0 <= args.strength <= 1.0:
         parser.error("--strength must be between 0 and 1")
@@ -112,14 +101,15 @@ def main() -> None:
         output_dir.mkdir(parents=True, exist_ok=True)
         failures = 0
         for source, target in plan:
+            color_info = None
             try:
-                process_image(source, target, lut_size, lut_values, args.strength)
+                color_info = process_image(source, target, lut_size, lut_values, args.strength, args.color_mode)
                 status = "OK"
             except Exception as exc:
                 failures += 1
                 status = f"ERROR: {exc}"
             relative_source = source.relative_to(source_root) if source_root else Path(source.name)
-            report["outputs"].append({"input": str(relative_source), "output": str(target.relative_to(output_dir.resolve())), "status": status})
+            report["outputs"].append({"input": str(relative_source), "output": str(target.relative_to(output_dir.resolve())), "status": status, "color_management": color_info})
             print(f"{status}: {source.name}")
 
         report_path = output_dir / "batch-report.json"
