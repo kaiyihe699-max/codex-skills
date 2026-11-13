@@ -64,7 +64,7 @@ Windows 未配置 `python` 命令时可用 `py -3` 替换。已有同名输出�
 | 静物 · 暖色胶片方向 | `--example still-life` | [对比图](examples/looks/still-life/preview-comparison.png) · [LUT](examples/looks/still-life/look.cube) · [配方](examples/looks/still-life/recipe.json) |
 | 暮色 · 青橙方向 | `--example twilight` | [对比图](examples/looks/twilight/preview-comparison.png) · [LUT](examples/looks/twilight/look.cube) · [配方](examples/looks/twilight/recipe.json) |
 
-[下载三组演示素材与结果](examples/yingse-starter-pack.zip)。其中 `START-HERE.md` 说明如何对照、复现和使用配方。
+[下载三组演示素材与结果](https://github.com/kaiyihe699-max/codex-skills/releases/download/generate-lut-v5.0.3/Yingse-v5.0.3-demo.zip)。其中 `START-HERE.md` 说明如何对照、复现和使用配方。
 
 ## 用在自己的照片上
 
