@@ -62,6 +62,6 @@ The built-in `.system` skills and generated Python cache files are intentionally
 
 ## License
 
-Licensing currently varies by skill. Review the license files in individual folders before redistributing or changing this repository to public visibility.
+Licensing varies by skill. [Yingse / generate-lut](generate-lut/LICENSE) code and documentation use the MIT License; its sample photographs retain their [documented terms](generate-lut/examples/SOURCES.md). Other skills keep their own existing terms. Review each folder before redistributing.
 
 

@@ -1,7 +1,8 @@
 ---
 name: generate-lut
+license: MIT
 metadata:
-  version: "5.0.2"
+  version: "5.0.3"
 description: Generate creative .cube LUTs from photo color-grading requests, preview the exported LUT on a photo, and save a reusable recipe. Use for warm film looks, portraits, travel or street photography, LUT strength adjustments, batch photo grading, and LUT validation. Also supports explicitly specified technical color transforms, ordered LUT chains, and documented camera checks.
 ---
 

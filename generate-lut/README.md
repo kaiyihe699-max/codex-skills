@@ -103,3 +103,7 @@ Install with the command above, then ask your agent:
 For a direct first run, use the three Python commands under “第一次试用”. Python 3.10+ and Pillow/LittleCMS are required for photo previews. The included samples and starter pack work without scikit-image or a network connection. See [credits](examples/SOURCES.md).
 
 The default creative workflow is 8-bit sRGB, not RAW development or automatic Log/HDR conversion. Technical tools are separate and require explicit source/target assumptions. Preview/export consistency is checked for the same file; visual quality and target-editor/device behavior still require review.
+
+## License
+
+The original code and documentation in this `generate-lut` folder are licensed under the [MIT License](LICENSE). This grant applies to Yingse only, not to other skills in the repository. Third-party sample photographs retain their documented terms; see [sample credits](examples/SOURCES.md). No endorsement or rights in depicted brands or identities are granted.

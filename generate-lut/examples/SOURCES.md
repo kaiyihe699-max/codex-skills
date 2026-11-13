@@ -15,3 +15,5 @@ Source and rights descriptions were checked on 2026-11-13:
 - [Rocket dataset documentation](https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.rocket)
 
 `source-hashes.json` records the exact bundled input bytes. Inputs are copied from the installed scikit-image dataset without retouching. Example outputs and gallery panels are derived by applying the bundled creative LUTs; gallery panels are resized and labelled for display. These examples illustrate specific images, not universal suitability or objective improvement.
+
+The MIT license for Yingse code and documentation does not replace these photographs' original terms or grant rights in depicted brands or identities.
